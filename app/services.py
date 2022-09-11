@@ -23,6 +23,7 @@ class Property(object):
         return s
 
 
+#########################################################################################################
 class Player(object):
     def __init__(self, player_name, personality):
         """
@@ -33,42 +34,61 @@ class Player(object):
         self._personality = personality
         self._balance = 300.0
         self._position = 0
+        self._game_round = False
 
-    def get_player_name(self):
+    def player_name(self):
         """
         :return: string, player_name
         """
         return self._player_name
 
-    def get_personality(self):
+    def personality(self):
         """
         :return: string, personality player type
         """
         return self._personality
 
-    def get_balance(self):
+    @property
+    def game_round(self):
+        """
+        :return: boolean, True if player finish one board round
+        """
+        return self._game_round
+
+    @game_round.setter
+    def game_round(self, flag):
+        """
+        :param flag: boolean
+        """
+        self._game_round = flag
+
+    @property
+    def balance(self):
         """
         :return: float, total balance
         """
         return self._balance
 
-    def update_balance(self, money, tag):
+    @balance.setter
+    def balance(self, args):
         """
-        :money: float, balance to update with new value
-        :tag: int, 1 to plus, 0 to minus
+        :param args: args[0] -> float, value to update, args[1] -> int, 1 to plus, 0 to minus
+        :return:
         """
-        if tag == 1:
-            self._balance += money
+        if args[1]:
+            self._balance += args[0]
         else:
-            self._balance -= money
+            self._balance -= args[0]
 
-    def get_posision(self):
+    @property
+    def position(self):
         """
         :return: int, board position
         """
         return self._position
 
-    def update_posision(self, position):
+    @position.setter
+    def position(self, position):
         """
         :param position: int, new board position to update
         """
@@ -80,4 +100,5 @@ class Player(object):
         s += "Type:" + self._personality + "\n"
         s += "Balance:" + str(self._balance) + "\n"
         s += "Board Position:" + str(self._position) + "\n"
+        s += "Game Round:" + str(self._game_round) + "\n"
         return s
