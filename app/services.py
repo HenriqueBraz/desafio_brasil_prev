@@ -1,3 +1,37 @@
+def game_round(player, control, round_control):
+    """
+    if player finsh game round, increment count_round and update player.game_round
+    :param player: object, current player
+    :param control: int, aux control variable
+    :param round_control: int, round control variable
+    :return: player, control, round_control
+    """
+    if player.game_round and control == 0:
+        player.game_round = False
+        round_control += 1
+        control = 1
+
+    elif player.game_round:
+        player.game_round = False
+
+    return player, control, round_control
+
+
+def remove_player(player, rent_value, player_owner, player_order, board):
+    # paga o saldo restante para o proprietario:
+    for player2 in player_order:
+        if player2.player_name() == player_owner:
+            player2.balance = player.balance, 1
+            break
+    # perde todas as propriedades:
+    for p in board:
+        if p != 'start':
+            if p.owner == player.player_name():
+                p.owner = ""
+    # é retirado do jogo:
+    player_order.remove(player)
+
+
 class Property(object):
     def __init__(self, sales_cost, rent_value, owner=""):
         """
@@ -9,7 +43,7 @@ class Property(object):
         self._rent_value = rent_value
         self.owner = owner
 
-    def get_sales_cost(self):
+    def sales_cost(self):
         return self._sales_cost
 
     def rent_value(self):
