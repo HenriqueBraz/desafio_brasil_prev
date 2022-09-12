@@ -9,7 +9,6 @@ if __name__ == "__main__":
     for i in range(300):
         temp = run()
         turns.append(temp['rounds'])
-        a = temp['champion'].personality()
         if temp['champion'].personality() == 'impulsivo':
             wins_percentage_behavior['impulsivo'] += 1
 
@@ -22,7 +21,7 @@ if __name__ == "__main__":
         elif temp['champion'].personality() == 'aleatorio':
             wins_percentage_behavior['aleatorio'] += 1
 
-        if temp['rounds'] == 'time out':
+        if temp['time_out']:
             time_out += 1
 
     for i in range(len(turns)):

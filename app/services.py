@@ -57,7 +57,6 @@ class Property(object):
         return s
 
 
-#########################################################################################################
 class Player(object):
     def __init__(self, player_name, personality):
         """

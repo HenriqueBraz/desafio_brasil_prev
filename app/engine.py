@@ -108,6 +108,6 @@ def run():
         temp = [player.balance for player in player_order]
         temp = max(temp)
         champion = [player.player_name() for player in player_order if player.balance == temp]
-        return {'rounds': 'time out', 'champion': champion}
+        return {'rounds': rounds, 'champion': champion, 'time_out': True}
     else:
-        return {'rounds': rounds, 'champion': champion_list[-1]}
+        return {'rounds': rounds, 'champion': champion_list[-1], 'time_out': False}
