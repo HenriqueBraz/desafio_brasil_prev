@@ -104,10 +104,10 @@ def run():
                 champion_list.append(player)
 
     if round_control != 0:
-        temp = []
-        for player in player_order:
-            temp.append(player.balance)
+        # se a partida acaba por time_out, retorna o player com maior saldo e por ordem de jogada
+        temp = [player.balance for player in player_order]
         temp = max(temp)
+        champion = [player.player_name() for player in player_order if player.balance == temp]
+        return {'rounds': 'time out', 'champion': champion}
     else:
-        dict_return = {'rounds': rounds, 'champion': champion_list[-1]}
-        return dict_return
+        return {'rounds': rounds, 'champion': champion_list[-1]}

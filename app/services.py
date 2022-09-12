@@ -61,7 +61,7 @@ class Property(object):
 class Player(object):
     def __init__(self, player_name, personality):
         """
-        :param player_name: string, name_plyer
+        :param player_name: string, name_player
         :param personality: string, type of player
         """
         self._player_name = player_name
