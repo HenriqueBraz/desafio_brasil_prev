@@ -29,7 +29,7 @@ def run():
     # começando o jogo
     while 0 < round_control <= 1000:
         control = 0
-        for k, player in enumerate(players_list):
+        for player in players_list:
             # verifica o tipo do jogador e joga o dado
             personality = player.personality()
             dice = random.randrange(1, 7)
@@ -58,7 +58,7 @@ def run():
                 player, control, round_control = game_round(player, control, round_control)
                 continue
 
-            # se a propriedade já está alugada, paga o aluguel ao proprietário
+            # se a propriedade já está comprada, paga o aluguel ao proprietário
             elif property_game.owner != "":
                 player_owner = property_game.owner
                 rent_value = property_game.rent_value()
@@ -101,6 +101,7 @@ def run():
             # verifica o jogador que completou a rodada e incrementa o contador de rodadas
             player, control, round_control = game_round(player, control, round_control)
 
+            # se resta somente 1 jogador, encerra a partida
             if len(players_list) == 1:
                 rounds = round_control
                 round_control = 0
