@@ -10,5 +10,8 @@
 ### criar a imagem
 - sudo docker build -t desafio_brasil_prev .
 
+### ver o IMAGE_ID da imagem criada
+- sudo docker image ls
+
 ### executar o container
-- docker run --rm --name desafio_brasil_prev_container <container_id>
+- sudo docker run --rm --name desafio_brasil_prev_container IMAGE_ID

@@ -1,8 +1,19 @@
 from services import Property, Player, game_round, remove_player
 import random
 
+test_board = []
+test_players_list = []
+test_players_finish = []
+test_time_out_players_list = []
+test_champion = None
+
 
 def run():
+    global test_board
+    global test_champion
+    global test_players_list
+    global test_players_finish
+    global test_time_out_players_list
     board = []
     round_control = 1
     champion_list = []
@@ -15,6 +26,7 @@ def run():
         board.append(Property(sales_cost, rent_value))
 
     board.append('start')
+    test_board = board.copy()
 
     # inicializando os jogadores
     player_1 = Player('player_1', 'impulsivo')
@@ -24,6 +36,7 @@ def run():
 
     # define a ordem dos jogadores
     players_list = [player_1, player_2, player_3, player_4]
+    test_players_list = players_list.copy()
     random.shuffle(players_list)
 
     # começando o jogo
@@ -106,11 +119,14 @@ def run():
                 rounds = round_control
                 round_control = 0
                 champion_list.append(player)
+                test_players_finish = players_list.copy()
 
     if round_control != 0:
         # se a partida acaba por time_out, retorna o player com maior saldo e por ordem de jogada
         temp = max([player.balance for player in players_list])
         champion_list = [player for player in players_list if player.balance == temp]
+        test_time_out_players_list = players_list.copy()
+        test_champion = champion_list[0]
         return {'rounds': round_control, 'champion': champion_list[0], 'time_out': True}
     else:
         return {'rounds': rounds, 'champion': champion_list[-1], 'time_out': False}
