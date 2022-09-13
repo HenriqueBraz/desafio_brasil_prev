@@ -10,8 +10,8 @@ def run():
 
     # inicializando o tabuleiro
     for i in range(20):
-        sales_cost = random.randrange(100, 1000)
-        rent_value = round(sales_cost * (20 / 100))
+        sales_cost = random.randrange(300, 10000)
+        rent_value = round(sales_cost * (10 / 100))
         board.append(Property(sales_cost, rent_value))
 
     board.append('start')
@@ -23,13 +23,13 @@ def run():
     player_4 = Player('player_4', 'aleatorio')
 
     # define a ordem dos jogadores
-    player_order = [player_1, player_2, player_3, player_4]
-    random.shuffle(player_order)
+    players_list = [player_1, player_2, player_3, player_4]
+    random.shuffle(players_list)
 
     # começando o jogo
     while 0 < round_control <= 1000:
         control = 0
-        for k, player in enumerate(player_order):
+        for k, player in enumerate(players_list):
             # verifica o tipo do jogador e joga o dado
             personality = player.personality()
             dice = random.randrange(1, 7)
@@ -49,16 +49,19 @@ def run():
                 player.game_round = True
                 continue
 
-            # verifica se a casa já pertence ao jogador
-            if board[new_position].owner == player.player_name():
+            # pega a propriedade que está na casa do tabuleiro aonde está o jogador:
+            property_game = board[new_position]
+
+            # verifica se a propriedade já pertence ao jogador
+            if property_game.owner == player.player_name():
                 player.position = new_position
                 player, control, round_control = game_round(player, control, round_control)
                 continue
 
-            # se a casa já está alugada, paga o aluguel ao proprietário
-            elif board[new_position].owner != "":
-                player_owner = board[new_position].owner
-                rent_value = board[new_position].rent_value()
+            # se a propriedade já está alugada, paga o aluguel ao proprietário
+            elif property_game.owner != "":
+                player_owner = property_game.owner
+                rent_value = property_game.rent_value()
 
                 # retira o valor do jogador atual
                 player.balance = rent_value, 0
@@ -68,46 +71,45 @@ def run():
                 if player.balance <= 0:
                     player.balance = rent_value, 1
                     champion_list.append(player)
-                    remove_player(player, rent_value, player_owner, player_order, board)
+                    remove_player(player, player_owner, players_list, board)
                     continue
 
             if personality == 'impulsivo':  # --> sempre compra a propriedade
-                if board[new_position].sales_cost() <= player.balance:
-                    player.balance = board[new_position].sales_cost(), 0
-                    board[new_position].owner = player.player_name()
+                if property_game.sales_cost() <= player.balance:
+                    player.balance = property_game.sales_cost(), 0
+                    property_game.owner = player.player_name()
 
             elif personality == 'exigente':  # --> compra se o valor do aluguel > 50
-                if board[new_position].rent_value() > 50:
-                    if board[new_position].sales_cost() <= player.balance:
-                        player.balance = board[new_position].sales_cost(), 0
-                        board[new_position].owner = player.player_name()
+                if property_game.rent_value() > 50:
+                    if property_game.sales_cost() <= player.balance:
+                        player.balance = property_game.sales_cost(), 0
+                        property_game.owner = player.player_name()
 
             elif personality == 'cauteloso':  # --> compra se saldo > 80 depois da compra.
-                if player.balance - board[new_position].sales_cost() > 80:
-                    player.balance = board[new_position].sales_cost(), 0
-                    board[new_position].owner = player.player_name()
+                if player.balance - property_game.sales_cost() > 80:
+                    player.balance = property_game.sales_cost(), 0
+                    property_game.owner = player.player_name()
 
             elif personality == 'aleatorio':  # --> compra com probabilidade de 50%.
                 if random.choice([0, 1]) == 1:
-                    if board[new_position].sales_cost() <= player.balance:
-                        player.balance = board[new_position].sales_cost(), 0
-                        board[new_position].owner = player.player_name()
+                    if property_game.sales_cost() <= player.balance:
+                        player.balance = property_game.sales_cost(), 0
+                        property_game.owner = player.player_name()
 
             player.position = new_position
 
             # verifica o jogador que completou a rodada e incrementa o contador de rodadas
             player, control, round_control = game_round(player, control, round_control)
 
-            if len(player_order) == 1:
+            if len(players_list) == 1:
                 rounds = round_control
                 round_control = 0
                 champion_list.append(player)
 
     if round_control != 0:
         # se a partida acaba por time_out, retorna o player com maior saldo e por ordem de jogada
-        temp = [player.balance for player in player_order]
-        temp = max(temp)
-        champion = [player.player_name() for player in player_order if player.balance == temp]
-        return {'rounds': rounds, 'champion': champion, 'time_out': True}
+        temp = max([player.balance for player in players_list])
+        champion_list = [player for player in players_list if player.balance == temp]
+        return {'rounds': round_control, 'champion': champion_list[0], 'time_out': True}
     else:
         return {'rounds': rounds, 'champion': champion_list[-1], 'time_out': False}

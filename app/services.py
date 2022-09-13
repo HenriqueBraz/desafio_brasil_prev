@@ -17,9 +17,9 @@ def game_round(player, control, round_control):
     return player, control, round_control
 
 
-def remove_player(player, rent_value, player_owner, player_order, board):
+def remove_player(player, player_owner, players_list, board):
     # paga o saldo restante para o proprietario:
-    for player2 in player_order:
+    for player2 in players_list:
         if player2.player_name() == player_owner:
             player2.balance = player.balance, 1
             break
@@ -29,7 +29,7 @@ def remove_player(player, rent_value, player_owner, player_order, board):
             if p.owner == player.player_name():
                 p.owner = ""
     # é retirado do jogo:
-    player_order.remove(player)
+    players_list.remove(player)
 
 
 class Property(object):
@@ -106,7 +106,6 @@ class Player(object):
     def balance(self, args):
         """
         :param args: args[0] -> float, value to update, args[1] -> int, 1 to plus, 0 to minus
-        :return:
         """
         if args[1]:
             self._balance += args[0]
