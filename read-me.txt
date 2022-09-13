@@ -5,5 +5,5 @@
 #sudo docker build -t desafio_brasil_prev .
 
 ## executar o container:
-# docker run --rm --name desafio_brasil_prev_container 7351efd36e5b
+# docker run --rm --name desafio_brasil_prev_container <container_id>
 
