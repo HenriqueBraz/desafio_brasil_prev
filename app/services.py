@@ -18,6 +18,14 @@ def game_round(player, control, round_control):
 
 
 def remove_player(player, player_owner, players_list, board):
+    """
+    remove current player and get value to player owner
+    :param player: object, player to remove
+    :param player_owner: object, owner player
+    :param players_list: list, players list
+    :param board: list, board list
+    :return: None
+    """
     # paga o saldo restante para o proprietario:
     for player2 in players_list:
         if player2.player_name() == player_owner:
@@ -71,26 +79,30 @@ class Player(object):
 
     def player_name(self):
         """
-        :return: string, player_name
+        return player_name
+        :return: string
         """
         return self._player_name
 
     def personality(self):
         """
-        :return: string, personality player type
+        return personality player type
+        :return: string
         """
         return self._personality
 
     @property
     def game_round(self):
         """
-        :return: boolean, True if player finish one board round
+        return True if player finish one board round
+        :return: boolean
         """
         return self._game_round
 
     @game_round.setter
     def game_round(self, flag):
         """
+        set flag parameter
         :param flag: boolean
         """
         self._game_round = flag
@@ -98,14 +110,17 @@ class Player(object):
     @property
     def balance(self):
         """
-        :return: float, total balance
+        get balance value
+        :return: float
         """
         return self._balance
 
     @balance.setter
     def balance(self, args):
         """
+        update balance value
         :param args: args[0] -> float, value to update, args[1] -> int, 1 to plus, 0 to minus
+        :return: None
         """
         if args[1]:
             self._balance += args[0]
@@ -115,14 +130,17 @@ class Player(object):
     @property
     def position(self):
         """
-        :return: int, board position
+        get board position
+        :return: int
         """
         return self._position
 
     @position.setter
     def position(self, position):
         """
-        :param position: int, new board position to update
+        set new board position to update
+        :param position: int
+        :return: None
         """
         self._position = position
 
