@@ -1,6 +1,8 @@
 # desafio_brasil_prev
 
 [![HitCount](https://hits.dwyl.com/HenriqueBraz/HenriqueBraz/desafio_brasil_prev.svg)(http://hits.dwyl.com/HenriqueBraz/HenriqueBraz/desafio_brasil_prev)
+
+ [![HitCount](https://hits.dwyl.com/HenriqueBraz/https://githubcom/HenriqueBraz/desafio_brasil_prev.svg?style=flat&show=unique)](http://hits.dwyl.com/HenriqueBraz/https://githubcom/HenriqueBraz/desafio_brasil_prev)
   
 
 ### implementação de um jogo de tabuleiro baseado no banco imobiliário, com regras simplificadas
